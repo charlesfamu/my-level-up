@@ -7,7 +7,7 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: NextRequest) {
-  const { currentSkills, desiredProfession } = await request.json();
+  const { currentSkills, desiredProfession, isJobDescription } = await request.json();
   const systemPrompt = `
     You are a career transition advisor with expertise in identifying skills and qualifications needed 
     for various professions. Your task is to analyze a user's current skill set and desired career field to provide 
@@ -15,29 +15,38 @@ export async function POST(request: NextRequest) {
     highlight any transferrable skills.
   `;
 
-  const userInput = `
-    These are my current skills: ${currentSkills}. This is my desired career: ${desiredProfession}. 
-    Based on this information, provide a list of:
-    1. Technical Skills: Programming languages, tools, or technologies relevant to the new field.
-    2. Soft Skills: Key interpersonal and management skills needed in the new profession.
-    3. Certifications or Courses: Recommended certifications, online courses, or training programs.
-    4. Industry Knowledge: Additional industry-specific knowledge or experience required.
-    5: Networking and Community: Key professional groups, forums, or networking opportunities to explore.
-  `;
+  const userInput = isJobDescription 
+    ? `Analyze this job description: ${desiredProfession}. Based on this, provide a list of:
+      1. Technical Skills
+      2. Soft Skills
+      3. Certifications or Courses
+      4. Industry Knowledge
+      5. Networking and Community
+      ` 
+    : `These are my current skills: ${currentSkills}. This is my desired career: ${desiredProfession}. Based on this information, provide a list of:
+      1. Technical Skills
+      2. Soft Skills
+      3. Certifications or Courses
+      4. Industry Knowledge
+      5. Networking and Community
+      `;
 
   const response = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     messages: [
       { 
         role: 'system', 
-        content: systemPrompt, 
+        content: `${systemPrompt}.`, 
       },
       { 
         role: 'user', 
         content: userInput, 
       },
     ],
-    max_tokens: 500,
+    max_tokens: 1000,
+    // response_format: {
+    //   'type': 'json_object',
+    // },
     temperature: 0.5,
     top_p: 1,
   });
