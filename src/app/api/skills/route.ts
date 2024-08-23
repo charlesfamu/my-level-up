@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     messages: [
       { 
         role: 'system', 
-        content: `${systemPrompt}.`, 
+        content: `${systemPrompt}. Please provide the response in JSON format with clearly defined keys in camelCase, including an "Introduction" key with the initial paragraph as its value.`, 
       },
       { 
         role: 'user', 
@@ -44,9 +44,9 @@ export async function POST(request: NextRequest) {
       },
     ],
     max_tokens: 1000,
-    // response_format: {
-    //   'type': 'json_object',
-    // },
+    response_format: {
+      'type': 'json_object',
+    },
     temperature: 0.5,
     top_p: 1,
   });
