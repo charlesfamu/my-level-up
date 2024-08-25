@@ -36,14 +36,16 @@ export async function POST(request: NextRequest) {
     messages: [
       { 
         role: 'system', 
-        content: `${systemPrompt}. Please provide the response in JSON format with clearly defined keys in camelCase, including an "Introduction" key with the initial paragraph as its value.`, 
+        content: `${systemPrompt}. Please provide the response in JSON format with clearly defined keys in camelCase, 
+        including a "CurrentJob" key with the value being the current job, "DesiredRole" key with the value being the 
+        desired role, "Introduction" key with the initial paragraph as its value.`, 
       },
       { 
         role: 'user', 
         content: userInput, 
       },
     ],
-    max_tokens: 1000,
+    max_tokens: 1500,
     response_format: {
       'type': 'json_object',
     },
