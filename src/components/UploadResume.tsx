@@ -2,12 +2,12 @@
 import { useResumeContext } from '@/context/ResumeContext';
 
 const UploadResume = () => {
-  const { handleResumeUpload, loading } = useResumeContext();
+  const { handleUploadResume, loading } = useResumeContext();
   
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      await handleResumeUpload(file);
+      await handleUploadResume(file);
     }
   };
 

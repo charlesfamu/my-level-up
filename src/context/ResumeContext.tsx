@@ -1,5 +1,8 @@
 'use client'
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import { fetchCourses } from '@/services/course.services';
+import { fetchSkills, uploadResume } from '@/services/skill.services';
+
+import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
 export enum Steps {
   Upload = 'upload',
@@ -7,17 +10,40 @@ export enum Steps {
   Results = 'results',  
 }
 
-interface ResumeContextType {
-  resumeSkills: string[];
-  desiredProfession: string;
-  skillsNeeded: string[];
-  roles: string[];
-  courses: { name: string; url: string }[];
-  salary: string;
+export interface Course {
+  id: number;
+  image_240x135: string;
+  headline: string;
+  title: string; 
+  url: string;
+}
+
+export interface Skills {
+  technicalSkills: string[];
+  softSkills: string[];
+  certificationsOrCourses: string[];
+  industryKnowledge: string[];
+  networkingAndCommunity: string[];
+}
+
+export interface SkillsNeeded {
+  currentJob: string;
+  desiredRole: string;
+  introduction: string;
+  requiredSkills: Skills;
+  transferableSkills: string[];
+}
+
+export interface ResumeContextType {
+  resumeSkills: string | null;
+  desiredProfession: string | null;
+  skillsNeeded: SkillsNeeded | null;
+  courses: Course[] | null;
   loading: boolean;
   step: string;
-  handleResumeUpload: (file: File) => Promise<void>;
-  handleProfessionSubmit: (profession: string, isJobDescription?: boolean) => Promise<void>;
+  handleFetchCourses: () => Promise<void>;
+  handleUploadResume: (file: File) => Promise<void>;
+  handleSubmitProfession: (profession: string, isJobDescription?: boolean) => Promise<void>;
   setStep: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -32,91 +58,74 @@ export function useResumeContext() {
 }
 
 export function ResumeProvider({ children }: { children: ReactNode }) {
-  const [resumeSkills, setResumeSkills] = useState<string[]>([]);
-  const [desiredProfession, setDesiredProfession] = useState<string>('');
-  const [skillsNeeded, setSkillsNeeded] = useState<string[]>([]);
-  const [roles, setRoles] = useState<string[]>([]);
-  const [courses, setCourses] = useState<{ name: string; url: string }[]>([]);
-  const [salary, setSalary] = useState<string>('');
+  const [resumeSkills, setResumeSkills] = useState<string | null>(null);
+  const [desiredProfession, setDesiredProfession] = useState<string | null>(null);
+  const [skillsNeeded, setSkillsNeeded] = useState<SkillsNeeded | null>(null);
+  const [courses, setCourses] = useState<Course[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [step, setStep] = useState<string>(Steps.Upload);
 
-  const handleResumeUpload = async (file: File) => {
+  const handleFetchCourses = useCallback(async () => {
+    setLoading(true);
+    if (skillsNeeded) {
+      const { certificationsOrCourses } = skillsNeeded.requiredSkills ?? {};
+      const titles = (certificationsOrCourses?.slice(0, 3) ?? []).join();
+      const courses = await fetchCourses(titles);
+      if (courses && Array.isArray(courses)) {
+        setCourses(courses);
+      }
+    }
+    setLoading(false);
+  }, [skillsNeeded, setLoading, setCourses]);
+
+  const handleUploadResume = useCallback(async (file: File) => {
     if (!file) return;
 
     setLoading(true);
     const formData = new FormData();
     formData.append('file', file);
 
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      
-      if (!response.ok) {
-        throw new Error('Error uploading file, response not okay.');
-      }
-
-      const data = await response.json();
+    const data = await uploadResume(formData);
+    if (data) {
       setResumeSkills(data.analysis);
       setStep(Steps.Input);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    } finally {
-      setLoading(false);
     }
-  };
 
-  const handleProfessionSubmit = async (profession: string, isJobDescription: boolean = false) => {
-    if (!profession) return;
-    
+    setLoading(false);
+  }, [setLoading, setResumeSkills, setStep]);
+
+  const handleSubmitProfession = useCallback(async (profession: string, isJobDescription: boolean = false) => {
+    if (!profession || !resumeSkills) return;
+
     setLoading(true);
     setDesiredProfession(profession);
 
-    try {
-      const response = await fetch('/api/skills', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          currentSkills: resumeSkills, 
-          desiredProfession: profession, 
-          isJobDescription 
-        }),
-      });
+    const body = JSON.stringify({ 
+      currentSkills: resumeSkills, 
+      desiredProfession: profession, 
+      isJobDescription 
+    });
 
-      if (!response.ok) {
-        throw new Error('Error fetching desired skills, response not okay.')
-      }
+    const data = await fetchSkills(body);
 
-      const data = await response.json();
+    if (data) {
       setSkillsNeeded(data.skillsNeeded);
-      
-      // Fetch additional info such as roles, courses, and salary
-      // Example:
-      // setRoles(data.roles);
-      // setCourses(data.courses);
-      // setSalary(data.salary);
-      
       setStep(Steps.Results);
-    } catch (error) {
-      console.error('Error fetching desired skills:', error);
-    } finally {
-      setLoading(false);
     }
-  };
+
+    setLoading(false);
+  }, [resumeSkills, setLoading, setDesiredProfession, setSkillsNeeded, setStep]);
 
   const value = {
     resumeSkills,
     desiredProfession,
     skillsNeeded,
-    roles,
     courses,
-    salary,
     loading,
     step,
-    handleResumeUpload,
-    handleProfessionSubmit,
+    handleFetchCourses,
+    handleUploadResume,
+    handleSubmitProfession,
     setStep
   };
 

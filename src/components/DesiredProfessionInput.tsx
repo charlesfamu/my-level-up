@@ -3,13 +3,13 @@ import { useResumeContext } from '@/context/ResumeContext';
 import { useState } from 'react';
 
 const DesiredProfessionInput = () => {
-  const { handleProfessionSubmit, loading } = useResumeContext();
+  const { handleSubmitProfession, loading } = useResumeContext();
   const [profession, setProfession] = useState<string>('');
   const [isJobDescription, setIsJobDescription] = useState<boolean>(false);
 
   const handleSubmit = (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
-    handleProfessionSubmit(profession, isJobDescription);
+    handleSubmitProfession(profession, isJobDescription);
   };
 
   const handleProfessionChange = (e: React.BaseSyntheticEvent) => {

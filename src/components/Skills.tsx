@@ -2,7 +2,20 @@
 import { useResumeContext } from '@/context/ResumeContext';
 
 const SkillsList = () => {
-  const { skillsNeeded } = useResumeContext();
+  const { courses, handleFetchCourses, skillsNeeded } = useResumeContext();
+  if (!skillsNeeded) return;
+
+  // export interface SkillsNeeded {
+  //   currentJob: string;
+  //   desiredRole: string;
+  //   introduction: string;
+  //   technicalSkills: string[];
+  //   softSkills: string[];
+  //   certificationsOrCourses: string[];
+  //   industryKnowledge: string[];
+  //   networkingAndCommunity: string[];
+  //   transferableSkills: string[];
+  // }
 
   return (
     <>
