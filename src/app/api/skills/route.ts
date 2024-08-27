@@ -17,7 +17,8 @@ export async function POST(request: NextRequest) {
     highlight any transferrable skills. Please ensure the response is in JSON format with clearly defined keys using camelCase.
     
     The introduction should start by summarizing the user's current skills and explain how these skills relate to the desired profession. 
-    Specifically, highlight any transferable skills and how they can be leveraged in the new role.
+    Specifically, highlight any transferable skills and how they can be leveraged in the new role. Be very realistic. If the current skills
+    and desired career are not related, speak to any challenges one may have during this transition.
   `;
 
   const userInput = isJobDescription 

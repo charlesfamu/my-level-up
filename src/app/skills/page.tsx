@@ -7,8 +7,14 @@ const Skills = () => {
   const { courses, handleFetchCourses, loading, skillsNeeded } = useResumeContext();
 
   useEffect(() => {
-    handleFetchCourses();
-  }, [handleFetchCourses, skillsNeeded]);
+    const fetchData = async () => {
+      if (!courses) {
+        await handleFetchCourses();
+      }
+    };
+    
+    fetchData();
+  }, [courses, handleFetchCourses]);
 
   const { desiredRole, introduction, requiredSkills } = skillsNeeded ?? {};
   return (
@@ -44,7 +50,7 @@ const Skills = () => {
               <ul className="grid gap-6">
                 {requiredSkills?.technicalSkills?.map((technicalSkill, index) => {
                   return (
-                    <li key={index}>
+                    <li key={index} className="custom-list-item">
                       <div className="grid gap-1">
                         <h3 className="text-xl font-bold">{technicalSkill}</h3>
                       </div>

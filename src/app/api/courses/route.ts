@@ -6,7 +6,7 @@ async function fetchUdemyCoursesFromTitle(title: string) {
   const params = new URLSearchParams({
     search: title,
     is_affiliate_agreed: 'True',
-    ordering: 'highest-rated',
+    ordering: 'relevance',
   });
 
   const url = `${UDEMY_COURSES_ENDPOINT}/?${params.toString()}`;

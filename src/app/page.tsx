@@ -8,15 +8,21 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const { step, setStep, loading } = useResumeContext();
+  const { step, setStep, loading, clearCourses, courses } = useResumeContext();
   const router = useRouter();
 
   useEffect(() => {
-    if (step === Steps.Results) {
-      router.push('/skills');
-      setStep(Steps.Upload);
+    if (step === Steps.Upload && courses) {
+      clearCourses();
     }
-  }, [router, step]);
+  }, [step, courses, clearCourses]);
+
+  useEffect(() => {
+    if (step === Steps.Results) {
+      setStep(Steps.Upload);
+      router.push('/skills');
+    }
+  }, [step, router, setStep]);
 
   return (
     <div className="flex flex-col min-h-[100dvh]">

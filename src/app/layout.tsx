@@ -1,10 +1,10 @@
 import { ResumeProvider } from '@/context/ResumeContext';
 import clsx from 'clsx';
-import { DM_Sans, Space_Mono } from 'next/font/google';
+import { Bricolage_Grotesque, Space_Mono } from 'next/font/google';
 import Link from 'next/link';
 import './globals.css';
 
-const fontHeading = DM_Sans({
+const fontHeading = Bricolage_Grotesque({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-heading',

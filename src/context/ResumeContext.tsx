@@ -41,6 +41,7 @@ export interface ResumeContextType {
   courses: Course[] | null;
   loading: boolean;
   step: string;
+  clearCourses: () => void;
   handleFetchCourses: () => Promise<void>;
   handleUploadResume: (file: File) => Promise<void>;
   handleSubmitProfession: (profession: string, isJobDescription?: boolean) => Promise<void>;
@@ -65,11 +66,15 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [step, setStep] = useState<string>(Steps.Upload);
 
+  const clearCourses = () => {
+    setCourses(null);
+  };
+
   const handleFetchCourses = useCallback(async () => {
     setLoading(true);
     if (skillsNeeded) {
       const { certificationsOrCourses } = skillsNeeded.requiredSkills ?? {};
-      const titles = (certificationsOrCourses?.slice(0, 3) ?? []).join();
+      const titles = (certificationsOrCourses ?? []).join();
       const courses = await fetchCourses(titles);
       if (courses && Array.isArray(courses)) {
         setCourses(courses);
@@ -126,7 +131,8 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     handleFetchCourses,
     handleUploadResume,
     handleSubmitProfession,
-    setStep
+    setStep,
+    clearCourses,
   };
 
   return (
