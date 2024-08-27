@@ -5,6 +5,7 @@ import { fetchSkills, uploadResume } from '@/services/skill.services';
 import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
 export enum Steps {
+  Welcome = 'welcome',
   Upload = 'upload',
   Input = 'input',
   Results = 'results',  
@@ -64,7 +65,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const [skillsNeeded, setSkillsNeeded] = useState<SkillsNeeded | null>(null);
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [step, setStep] = useState<string>(Steps.Upload);
+  const [step, setStep] = useState<string>(Steps.Welcome);
 
   const clearCourses = () => {
     setCourses(null);
@@ -93,7 +94,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     const data = await uploadResume(formData);
     if (data) {
       setResumeSkills(data.analysis);
-      setStep(Steps.Input);
+      // setStep(Steps.Input);
     }
 
     setLoading(false);

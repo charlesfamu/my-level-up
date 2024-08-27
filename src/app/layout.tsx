@@ -43,22 +43,22 @@ export default function RootLayout({
         fontBody.variable,
       )}>
         <ResumeProvider>
-          <header className="px-4 lg:px-6 h-14 flex items-center bg-muted sticky top-0 z-50">
-            <Link href="/" className="flex items-center justify-center" prefetch={false}>
-              <ArrowTrendUpIcon className="h-6 w-6" />
-              <span className="sr-only">A Level Up</span>
-            </Link>
-            <nav className="ml-auto flex gap-4 sm:gap-6">
-
-            </nav>
-          </header>
-            {children}
-          <footer
-            id="contact"
-            className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t"
-          >
-            <p className="text-xs text-muted-foreground">&copy; 2024 A Level Up. All rights reserved.</p>
-          </footer>  
+          <div className="flex flex-col min-h-screen">
+            <header className="px-4 lg:px-6 h-14 flex items-center bg-muted sticky top-0 z-50">
+              <Link href="/" className="flex items-center justify-center" prefetch={false}>
+                {/* <ArrowTrendUpIcon className="h-6 w-6" /> */}
+                My Level Up
+                <span className="sr-only">My Level Up</span>
+              </Link>
+            </header>
+            <main className="flex flex-grow items-center bg-gradient-to-b from-blue-500 to-indigo-600">{children}</main>
+            <footer
+              id="contact"
+              className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t h-16"
+            >
+              <p className="text-xs text-muted-foreground">&copy; 2024 A Level Up. All rights reserved.</p>
+            </footer> 
+          </div> 
         </ResumeProvider>
       </body>
     </html>
