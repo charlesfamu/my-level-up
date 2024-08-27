@@ -1,8 +1,10 @@
 'use client'
+import { LeftArrowIcon, RightArrowIcon } from '@/components/CustomIcons';
+import ProcessingState from '@/components/ProcessingState';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
 
 const UploadResumeCard = () => {
-  const { handleUploadResume, loading, setStep } = useResumeContext();
+  const { handleUploadResume, loading, resumeFile, resumeSkills, setStep } = useResumeContext();
   
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -12,30 +14,47 @@ const UploadResumeCard = () => {
   };
 
   return (
-    <div className="bg-card text-card-foreground p-6 max-w-md mx-auto">
-      <div className="border-dashed border-2 border-gray-300 rounded-lg p-4 text-center relative">
-        <input
-          type="file"
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          onChange={handleFileChange}
-        />
+    <div className="flex flex-col justify-between bg-card text-card-foreground p-6 max-w-md min-w-96 min-h-80">
+      <h2 className="text-2xl font-bold">Upload Your Resume</h2>
+      <p className="text-xs">Let us help you in your journey. Upload your most up-to-date resume to get started and receive personalized recommendations.</p>
+      <label className="flex flex-col justify-center border-dashed border rounded-sm border-gray-300 p-4 text-center min-h-24 cursor-pointer">
+        
         {loading ? (
-          <div className="flex justify-center items-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
+          <ProcessingState prompt='Loading your resume...'/>
         ) : (
-          <div className="flex flex-col items-center justify-center">
-            <span className="text-gray-500 text-xl mb-2">Drag or select your resume</span>
-          </div>
+          <>
+            <span className="text-xs">{
+              resumeFile 
+                ? `Click to update your resume (${resumeFile?.name})`
+                : 'Click to upload your resume'
+              }
+            </span>
+            <input
+              type="file"
+              className="w-full hidden"
+              onChange={handleFileChange}
+            />
+          </>
         )}
-      </div>
-      <button
-        className={`flex items-center justify-center bg-primary text-primary-foreground px-4 py-2 mt-8 hover:bg-accent transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        onClick={() => setStep(Steps.Input)}
-        disabled={loading}
+      </label>
+      <div className="flex flex-row justify-between">
+      <button 
+        className={`flex items-center justify-between bg-primary text-primary-foreground px-4 py-2 w-24 hover:bg-accent transition-all`}
+        onClick={() => setStep(Steps.Welcome)}
       >
-        Next
+        <LeftArrowIcon className="w-4 h-4 text-primary-foreground" />
+        <span>Back</span>
       </button>
+      <button
+        className={`flex items-center justify-between bg-primary text-primary-foreground px-4 py-2 w-24 hover:bg-accent transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        onClick={() => setStep(Steps.Input)}
+        disabled={loading || !resumeSkills}
+      >
+        <span>Next</span>
+        <RightArrowIcon className="w-4 h-4 text-primary-foreground" />
+      </button>
+      </div>
+
     </div>
   );
 };

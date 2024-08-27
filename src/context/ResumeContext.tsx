@@ -36,6 +36,7 @@ export interface SkillsNeeded {
 }
 
 export interface ResumeContextType {
+  resumeFile: File | null;
   resumeSkills: string | null;
   desiredProfession: string | null;
   skillsNeeded: SkillsNeeded | null;
@@ -60,6 +61,7 @@ export function useResumeContext() {
 }
 
 export function ResumeProvider({ children }: { children: ReactNode }) {
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeSkills, setResumeSkills] = useState<string | null>(null);
   const [desiredProfession, setDesiredProfession] = useState<string | null>(null);
   const [skillsNeeded, setSkillsNeeded] = useState<SkillsNeeded | null>(null);
@@ -87,6 +89,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const handleUploadResume = useCallback(async (file: File) => {
     if (!file) return;
 
+    setResumeFile(file);
     setLoading(true);
     const formData = new FormData();
     formData.append('file', file);
@@ -123,6 +126,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   }, [resumeSkills, setLoading, setDesiredProfession, setSkillsNeeded, setStep]);
 
   const value = {
+    resumeFile,
     resumeSkills,
     desiredProfession,
     skillsNeeded,
