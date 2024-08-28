@@ -14,20 +14,18 @@ const UploadResumeCard = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between bg-card text-card-foreground p-6 max-w-md min-w-96 min-h-80">
-      <h2 className="text-2xl font-bold">Upload Your Resume</h2>
-      <p className="text-xs">Let us help you in your journey. Upload your most up-to-date resume to get started and receive personalized recommendations.</p>
-      <label className="flex flex-col justify-center border-dashed border rounded-sm border-gray-300 p-4 text-center min-h-24 cursor-pointer">
-        
+    <div className="flex flex-col justify-between bg-card text-card-foreground p-4 sm:p-6 max-w-full sm:max-w-md min-h-80">
+      <h1 className="text-2xl sm:text-2xl font-bold mb-2">Upload Your Resume</h1>
+      <p className="text-sm sm:text-base">Let us help you in your journey. Upload your most up-to-date resume to get started.</p>
+      <label className="flex flex-col justify-center items-center border-dashed border border-gray-300 p-2 sm:p-4 text-center min-h-24 cursor-pointer mt-4 mb-4">
         {loading ? (
           <ProcessingState prompt='Loading your resume...'/>
         ) : (
           <>
-            <span className="text-xs">{
-              resumeFile 
+            <span className="text-xs sm:text-xs">
+              {resumeFile 
                 ? `Click to update your resume (${resumeFile?.name})`
-                : 'Click to upload your resume'
-              }
+                : 'Click to upload your resume'}
             </span>
             <input
               type="file"
@@ -37,22 +35,22 @@ const UploadResumeCard = () => {
           </>
         )}
       </label>
-      <div className="flex flex-row justify-between">
-      <button 
-        className={`flex items-center justify-between bg-primary text-primary-foreground px-4 py-2 w-24 hover:bg-accent transition-all`}
-        onClick={() => setStep(Steps.Welcome)}
-      >
-        <LeftArrowIcon className="w-4 h-4 text-primary-foreground" />
-        <span>Back</span>
-      </button>
-      <button
-        className={`flex items-center justify-between bg-primary text-primary-foreground px-4 py-2 w-24 hover:bg-accent transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        onClick={() => setStep(Steps.Input)}
-        disabled={loading || !resumeSkills}
-      >
-        <span>Next</span>
-        <RightArrowIcon className="w-4 h-4 text-primary-foreground" />
-      </button>
+      <div className="flex flex-col sm:flex-row justify-between mt-4">
+        <button 
+          className={`flex items-center justify-center bg-primary text-primary-foreground px-4 py-2 w-full sm:w-24 transition-all mb-2 sm:mb-0 rounded-sm ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent'}`}
+          onClick={() => setStep(Steps.Welcome)}
+        >
+          <LeftArrowIcon className="w-4 h-4 text-primary-foreground mr-2" />
+          <span>Back</span>
+        </button>
+        <button
+          className={`flex items-center justify-center bg-primary text-primary-foreground px-4 py-2 w-full sm:w-24 transition-all rounded-sm ${loading || !resumeSkills ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent'}`}
+          onClick={() => setStep(Steps.Input)}
+          disabled={loading || !resumeSkills}
+        >
+          <span>Next</span>
+          <RightArrowIcon className="w-4 h-4 text-primary-foreground ml-2" />
+        </button>
       </div>
 
     </div>

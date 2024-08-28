@@ -5,10 +5,10 @@ import { fetchSkills, uploadResume } from '@/services/skill.services';
 import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
 export enum Steps {
-  Welcome = 'welcome',
-  Upload = 'upload',
-  Input = 'input',
-  Results = 'results',  
+  Welcome = 'home',
+  Upload = 'resume',
+  Input = 'desires',
+  Results = 'advance',  
 }
 
 export interface Course {
@@ -46,7 +46,7 @@ export interface ResumeContextType {
   clearCourses: () => void;
   handleFetchCourses: () => Promise<void>;
   handleUploadResume: (file: File) => Promise<void>;
-  handleSubmitProfession: (profession: string, isJobDescription?: boolean) => Promise<void>;
+  handleSubmitProfession: (profession: string | null, isJobDescription?: boolean) => Promise<void>;
   setStep: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -103,7 +103,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }, [setLoading, setResumeSkills, setStep]);
 
-  const handleSubmitProfession = useCallback(async (profession: string, isJobDescription: boolean = false) => {
+  const handleSubmitProfession = useCallback(async (profession: string | null, isJobDescription: boolean = false) => {
     if (!profession || !resumeSkills) return;
 
     setLoading(true);

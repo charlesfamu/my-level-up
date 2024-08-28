@@ -1,5 +1,6 @@
 'use client'
 
+import DesiredProfessionCard from '@/components/DesiredProfessionCard';
 // import DesiredProfessionInput from '@/components/DesiredProfessionInput';
 // import ProcessingState from '@/components/ProcessingState';
 // import UploadResume from '@/components/UploadResume';
@@ -31,6 +32,7 @@ export default function Home() {
     <MainContainer>
       {step === Steps.Welcome && <WelcomeCard />}
       {step === Steps.Upload && <UploadResumeCard />}
+      {step === Steps.Input && <DesiredProfessionCard />}
     </MainContainer>
   );
 
