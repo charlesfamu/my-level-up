@@ -19,6 +19,12 @@ export async function POST(request: NextRequest) {
     The introduction should start by summarizing the user's current skills and explain how these skills relate to the desired profession. 
     Specifically, highlight any transferable skills and how they can be leveraged in the new role. Be very realistic. If the current skills
     and desired career are not related, speak to any challenges one may have during this transition.
+
+    The results generated for the topics, "Technical Skills" and "Certifications and Courses" will return an array of objects where each object has an
+    "id" that is the title in camelCase of the topic and "details" that briefly summarizes the topic (i.e. technical skills and certifications and courses)
+    Please ensure these topics are relevant to the desired profession or desired job description, not the user's current skills.
+
+    The "Current Job" and "Desired Role" results should only include the title of the role, not the company.
   `;
 
   const userInput = isJobDescription 
@@ -48,15 +54,15 @@ export async function POST(request: NextRequest) {
           {
             "currentJob": "string",
             "desiredRole": "string",
-            "introduction": "string",
-            "requiredSkills": {
-              "technicalSkills": ["string"],
+            "report": {
+              "introduction": "string",
+              "technicalSkills": {id: "string", details: "string"}[],
               "softSkills": ["string"],
-              "certificationsOrCourses": ["string"],
+              "certificationsOrCourses": {id: "string", details: "string"}["string"],
               "industryKnowledge": ["string"],
-              "networkingAndCommunity": ["string"]
+              "networkingAndCommunity": ["string"],
+              "transferableSkills": ["string"]
             },
-            "transferableSkills": ["string"]
           }`, 
       },
       { 
@@ -64,7 +70,7 @@ export async function POST(request: NextRequest) {
         content: userInput, 
       },
     ],
-    max_tokens: 1500,
+    max_tokens: 2000,
     response_format: {
       'type': 'json_object'
     },
@@ -74,24 +80,23 @@ export async function POST(request: NextRequest) {
 
   try {
     const completionContent = response.choices?.[0]?.message?.content ?? '';
-    const parsedResponse = JSON.parse(completionContent);
+    const parsedResponse = JSON.parse(completionContent) ?? {};
     
     const defaultSkills: SkillsNeeded = {
       currentJob: parsedResponse.currentJob || '',
       desiredRole: parsedResponse.desiredRole || '',
-      introduction: parsedResponse.introduction || '',
-      requiredSkills: {
-        technicalSkills: parsedResponse.requiredSkills?.technicalSkills || [],
-        softSkills: parsedResponse.requiredSkills?.softSkills || [],
-        certificationsOrCourses: parsedResponse.requiredSkills?.certificationsOrCourses || [],
-        industryKnowledge: parsedResponse.requiredSkills?.industryKnowledge || [],
-        networkingAndCommunity: parsedResponse.requiredSkills?.networkingAndCommunity || [],
+      report: {
+        introduction: parsedResponse.report?.introduction ?? '',
+        technicalSkills: parsedResponse.report?.technicalSkills ?? [],
+        softSkills: parsedResponse.report?.softSkills ?? [],
+        certificationsOrCourses: parsedResponse.report?.certificationsOrCourses ?? [],
+        industryKnowledge: parsedResponse.report?.industryKnowledge ?? [],
+        networkingAndCommunity: parsedResponse.report?.networkingAndCommunity ?? [],
+        transferableSkills: parsedResponse.report?.transferableSkills ?? [],
       },
-      transferableSkills: parsedResponse.transferableSkills || [],
     };
 
     return NextResponse.json({ skillsNeeded: defaultSkills }, { status: 200 });
-
   } catch (error) {
     console.error('Error parsing response:', error);
     return NextResponse.json({ error: 'Failed to parse the response.' }, { status: 500 });

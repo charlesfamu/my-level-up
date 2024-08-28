@@ -5,7 +5,7 @@ import { Steps, useResumeContext } from '@/context/ResumeContext';
 import { useState } from 'react';
 
 const DesiredProfessionCard = () => {
-  const { handleSubmitProfession, loading, resumeFile, resumeSkills, setStep } = useResumeContext();
+  const { handleSubmitProfession, loading, setStep } = useResumeContext();
   
   const [profession, setProfession] = useState<string | null>(null);
   const [isJobDescription, setIsJobDescription] = useState<boolean>(false);

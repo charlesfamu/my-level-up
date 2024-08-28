@@ -51,7 +51,7 @@ export default function RootLayout({
                 <span className="sr-only">My Level Up</span>
               </Link>
             </header>
-            <main className="flex flex-grow items-center bg-gradient-to-b from-blue-500 to-indigo-600">{children}</main>
+            <main className="flex flex-col justify-center items-center flex-grow relative">{children}</main>
             <footer
               id="contact"
               className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t h-16"

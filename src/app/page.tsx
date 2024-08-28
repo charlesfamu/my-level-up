@@ -5,6 +5,7 @@ import DesiredProfessionCard from '@/components/DesiredProfessionCard';
 // import ProcessingState from '@/components/ProcessingState';
 // import UploadResume from '@/components/UploadResume';
 import MainContainer from '@/components/MainContainer';
+import ProcessingState from '@/components/ProcessingState';
 import UploadResumeCard from '@/components/UploadResumeCard';
 import WelcomeCard from '@/components/WelcomeCard';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
@@ -23,10 +24,17 @@ export default function Home() {
 
   useEffect(() => {
     if (step === Steps.Results) {
-      setStep(Steps.Welcome);
-      router.push('/skills');
+      router.push('/report');
     }
   }, [step, router, setStep]);
+
+  if (step === Steps.Results) {
+    return (
+      <div className="flex items-center justify-center w-full">
+        <ProcessingState prompt="Loading Report..."/>
+      </div>
+    );
+  }
 
   return (
     <MainContainer>

@@ -19,7 +19,7 @@ const UploadResumeCard = () => {
       <p className="text-sm sm:text-base">Let us help you in your journey. Upload your most up-to-date resume to get started.</p>
       <label className="flex flex-col justify-center items-center border-dashed border border-gray-300 p-2 sm:p-4 text-center min-h-24 cursor-pointer mt-4 mb-4">
         {loading ? (
-          <ProcessingState prompt='Loading your resume...'/>
+          <ProcessingState prompt='Processing your resume...'/>
         ) : (
           <>
             <span className="text-xs sm:text-xs">

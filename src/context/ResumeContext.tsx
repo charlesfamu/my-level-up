@@ -1,6 +1,7 @@
 'use client'
 import { fetchCourses } from '@/services/course.services';
 import { fetchSkills, uploadResume } from '@/services/skill.services';
+import { camelCaseToTitleCase } from '@/utils';
 
 import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
@@ -8,7 +9,22 @@ export enum Steps {
   Welcome = 'home',
   Upload = 'resume',
   Input = 'desires',
-  Results = 'advance',  
+  Results = 'report',  
+}
+
+export enum ReportKeys {
+  Certification = 'certificationsOrCourses',
+  Industry = 'industryKnowledge',
+  Introduction = 'introduction',
+  Networking = 'networkingAndCommunity',
+  SoftSkills = 'softSkills',
+  TechnicalSkills = 'technicalSkills',
+  TransferableSkills = 'transferableSkills',
+}
+
+export interface SkillDetails {
+  id: string;
+  details: string;
 }
 
 export interface Course {
@@ -19,20 +35,20 @@ export interface Course {
   url: string;
 }
 
-export interface Skills {
-  technicalSkills: string[];
-  softSkills: string[];
-  certificationsOrCourses: string[];
-  industryKnowledge: string[];
-  networkingAndCommunity: string[];
+export interface Report {
+  [ReportKeys.Certification]: SkillDetails[];
+  [ReportKeys.Industry]: string[];
+  [ReportKeys.Introduction]: string;
+  [ReportKeys.Networking]: string[];
+  [ReportKeys.SoftSkills]: string[];
+  [ReportKeys.TechnicalSkills]: SkillDetails[];
+  [ReportKeys.TransferableSkills]: string[];
 }
 
 export interface SkillsNeeded {
   currentJob: string;
   desiredRole: string;
-  introduction: string;
-  requiredSkills: Skills;
-  transferableSkills: string[];
+  report: Report;
 }
 
 export interface ResumeContextType {
@@ -76,8 +92,10 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const handleFetchCourses = useCallback(async () => {
     setLoading(true);
     if (skillsNeeded) {
-      const { certificationsOrCourses } = skillsNeeded.requiredSkills ?? {};
-      const titles = (certificationsOrCourses ?? []).join();
+      const { certificationsOrCourses } = skillsNeeded.report ?? {};
+      const titles = (certificationsOrCourses ?? []).map(details => {
+        return camelCaseToTitleCase(details.id);
+      }).join();
       const courses = await fetchCourses(titles);
       if (courses && Array.isArray(courses)) {
         setCourses(courses);
@@ -119,6 +137,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
 
     if (data) {
       setSkillsNeeded(data.skillsNeeded);
+      console.log(data.skillsNeeded)
       setStep(Steps.Results);
     }
 
