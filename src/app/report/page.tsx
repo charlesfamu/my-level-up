@@ -1,17 +1,21 @@
 'use client'
 
 import Certification from '@/components/report/Certification';
+import Industry from '@/components/report/Industry';
 import Introduction from '@/components/report/Introduction';
+import Networking from '@/components/report/Networking';
+import SoftSkills from '@/components/report/SoftSkills';
 import TechnicalSkills from '@/components/report/TechnicalSkills';
+import TransferableSkills from '@/components/report/TransferableSkills';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ReportKeys, Steps, useResumeContext } from '@/context/ResumeContext';
+import { Steps, useResumeContext } from '@/context/ResumeContext';
 import { useEffect } from 'react';
 
 const Report = () => {
   const { courses, handleFetchCourses, skillsNeeded, setStep } = useResumeContext();
 
   useEffect(() => {
-    setStep(Steps.Input);
+    setStep(Steps.Welcome);
   }, [setStep]);
 
   useEffect(() => {
@@ -26,34 +30,32 @@ const Report = () => {
 
   const { desiredRole, report } = skillsNeeded ?? {};
   const reportKeys = Object.keys(report ?? {});
-  if (!desiredRole || !report) return null;
+  if (!desiredRole || !reportKeys.length) return null;
 
   return (
     <Carousel className="w-full max-w-[1200px]">
       <CarouselContent className="w-full h-full">
-        {reportKeys.map((reportKey, index) => {
-          let Component = null;
-          if (reportKey === ReportKeys.Certification) {
-            Component = <Certification />;
-          } else if (reportKey === ReportKeys.Industry) {
-    
-          } else if (reportKey === ReportKeys.Introduction) {
-            Component = <Introduction />;
-          } else if (reportKey === ReportKeys.Networking) {
-            
-          } else if (reportKey === ReportKeys.SoftSkills) {
-            
-          } else if (reportKey === ReportKeys.TechnicalSkills) {
-            Component = <TechnicalSkills />;
-          } else if (reportKey === ReportKeys.TransferableSkills) {
-            
-          }
-          return Component ? (
-            <CarouselItem key={index} className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
-              {Component}
-            </CarouselItem>
-          ) : null;
-        })}
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Introduction />
+        </CarouselItem>
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <TechnicalSkills />
+        </CarouselItem>
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <SoftSkills />
+        </CarouselItem>
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Certification />
+        </CarouselItem>
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Networking />
+        </CarouselItem>
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Industry />
+        </CarouselItem>
+        <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <TransferableSkills />
+        </CarouselItem>
       </CarouselContent>
       <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>

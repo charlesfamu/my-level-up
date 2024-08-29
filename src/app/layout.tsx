@@ -46,8 +46,8 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <header className="px-4 lg:px-6 h-14 flex items-center bg-muted sticky top-0 z-50">
               <Link href="/" className="flex items-center justify-center" prefetch={false}>
-                {/* <ArrowTrendUpIcon className="h-6 w-6" /> */}
-                My Level Up
+                <span className="mr-2 font-bold">My Level</span>
+                <ArrowTrendUpIcon className="h-6 w-6" />
                 <span className="sr-only">My Level Up</span>
               </Link>
             </header>

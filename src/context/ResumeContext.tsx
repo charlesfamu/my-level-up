@@ -115,11 +115,10 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     const data = await uploadResume(formData);
     if (data) {
       setResumeSkills(data.analysis);
-      // setStep(Steps.Input);
     }
 
     setLoading(false);
-  }, [setLoading, setResumeSkills, setStep]);
+  }, [setLoading, setResumeSkills]);
 
   const handleSubmitProfession = useCallback(async (profession: string | null, isJobDescription: boolean = false) => {
     if (!profession || !resumeSkills) return;
@@ -137,7 +136,6 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
 
     if (data) {
       setSkillsNeeded(data.skillsNeeded);
-      console.log(data.skillsNeeded)
       setStep(Steps.Results);
     }
 
