@@ -9,12 +9,12 @@ export async function uploadResume(formData: FormData) {
       return await response.json();
     } else if (response instanceof Response) {
       // Handle non-OK HTTP responses
-      throw new Error(`Error uploading file, ${response.statusText}`);
+      throw new Error(response.statusText);
     } else {
       throw response;
     }
   } catch (error) {
-    console.log(`Error uploading file, ${error}`);
+    // console.error(error);
     return null;
   }
 }
@@ -30,12 +30,12 @@ export async function fetchSkills(body: string) {
     if (response instanceof Response && response.ok) {
       return response.json();
     } else if (response instanceof Response) {
-      throw new Error(`Error fetching desired skills, ${response.statusText}`);
+      throw new Error(response.statusText);
     } else {
       throw response;
     }
   } catch (error) {
-    console.log(`Error fetching desired skills, ${error}`);
+    // console.log(error);
     return null;
   }
 }

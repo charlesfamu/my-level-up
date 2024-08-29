@@ -1,9 +1,6 @@
 'use client'
 
 import DesiredProfessionCard from '@/components/DesiredProfessionCard';
-// import DesiredProfessionInput from '@/components/DesiredProfessionInput';
-// import ProcessingState from '@/components/ProcessingState';
-// import UploadResume from '@/components/UploadResume';
 import MainContainer from '@/components/MainContainer';
 import ProcessingState from '@/components/ProcessingState';
 import UploadResumeCard from '@/components/UploadResumeCard';

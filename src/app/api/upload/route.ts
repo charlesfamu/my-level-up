@@ -67,6 +67,10 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
   } catch (error) {
+    if (error instanceof Error && error.message === 'Unsupported file type') {
+      console.error(error.message);
+      return NextResponse.json({ error: error.message }, { status: 415 });
+    }
     console.error('Error processing file', error);
     return NextResponse.json({ error: 'Error processing file' }, { status: 500 });
   }

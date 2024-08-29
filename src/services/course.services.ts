@@ -23,12 +23,12 @@ export async function fetchCourses(titles: string) {
       return courses;
     } else if (response instanceof Response) {
       // Handle non-OK HTTP responses
-      throw new Error(`Error fetching courses from titles, ${response.statusText}`);
+      throw new Error(response.statusText);
     } else {
       throw response;
     }
   } catch (error) {
-    console.log(`Error fetching courses from titles, ${error}`);
+    // console.log(`Error fetching courses from titles, ${error}`);
     return null;
   }
   

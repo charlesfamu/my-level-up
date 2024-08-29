@@ -12,7 +12,7 @@ const Networking = () => {
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-[1fr_600px]">
           <div className="space-y-2 text-center lg:text-left">
             <h1 className="text-5xl font-bold">
-              {desiredRole} Community
+              Network and Community
             </h1>
           </div>
           <ul className="overflow-y-auto h-96 text-center lg:text-left">

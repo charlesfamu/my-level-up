@@ -13,9 +13,9 @@ const Certification = () => {
     <section id="certification" className="w-full flex items-center">
       <div className="container px-4 md:px-6">
         <div className="mx-auto grid max-w-5xl items-end gap-6 lg:grid-cols-2 lg:gap-12">
-          <div className="flex flex-col justify-center space-y-4">
+          <div className="flex flex-col justify-center space-y-4 h-[600px]">
             <div className="space-y-2 text-center lg:text-left">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Certifications for a {desiredRole}</h1>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">{desiredRole} Certifications</h1>
             </div>
             <ul className="grid gap-6 overflow-y-auto text-center lg:text-left">
               {report.certificationsOrCourses.map((cert, index) => {

@@ -58,8 +58,10 @@ export interface ResumeContextType {
   skillsNeeded: SkillsNeeded | null;
   courses: Course[] | null;
   loading: boolean;
+  showBanner: boolean;
   step: string;
   clearCourses: () => void;
+  handleCloseBanner: () => void;
   handleFetchCourses: () => Promise<void>;
   handleUploadResume: (file: File) => Promise<void>;
   handleSubmitProfession: (profession: string | null, isJobDescription?: boolean) => Promise<void>;
@@ -84,10 +86,15 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [step, setStep] = useState<string>(Steps.Welcome);
+  const [showBanner, setShowBanner] = useState(true);
 
-  const clearCourses = () => {
+  const handleCloseBanner = useCallback(() => {
+    setShowBanner(false);
+  }, [setShowBanner]);
+
+  const clearCourses = useCallback(() => {
     setCourses(null);
-  };
+  }, [setCourses]);
 
   const handleFetchCourses = useCallback(async () => {
     setLoading(true);
@@ -115,6 +122,8 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     const data = await uploadResume(formData);
     if (data) {
       setResumeSkills(data.analysis);
+    } else {
+      setResumeFile(null);
     }
 
     setLoading(false);
@@ -149,12 +158,15 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     skillsNeeded,
     courses,
     loading,
+    showBanner,
     step,
+    clearCourses,
+    handleCloseBanner,
     handleFetchCourses,
     handleUploadResume,
     handleSubmitProfession,
+    setShowBanner,
     setStep,
-    clearCourses,
   };
 
   return (
