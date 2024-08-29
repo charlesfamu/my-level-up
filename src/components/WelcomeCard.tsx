@@ -13,7 +13,7 @@ const WelcomeCard = () => {
         className="flex items-center justify-center bg-primary text-primary-foreground px-4 py-2 w-full sm:w-60 hover:bg-accent transition-all rounded-sm"
         onClick={() => setStep(Steps.Upload)}
       >
-        <span>Let's Get Started</span>
+        <span>Let&rsquo;s Get Started</span>
         <RightArrowIcon className="w-4 h-4 text-primary-foreground ml-2" />
       </button>
     </div>
