@@ -7,16 +7,10 @@ const Introduction = () => {
   if (!desiredRole || !report?.introduction) return null;
 
   return (
-    <section id="introduction" className="w-full max-w-5xl mx-auto text-center px-4 md:px-6">
+    <section id="introduction" className="w-full max-w-5xl mx-auto px-4 md:px-6 my-20">
       <div className="flex flex-col items-center">
-        <div className="lg:text-left mx-8">
-          <h1 className="text-5xl font-bold max-w-[600px] mb-4">
-            Transitioning to {desiredRole}
-          </h1>
-          <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto lg:mx-0">
-            {report.introduction}
-          </p>
-        </div>
+        <h1 className="text-5xl font-bold mb-4">Your {desiredRole} Transition Plan</h1>
+        <p className="text-muted-foreground md:text-xl mx-auto lg:mx-0">{report.introduction}</p>
       </div>
     </section>
   );

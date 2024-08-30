@@ -82,13 +82,13 @@ const Report = () => {
           <SoftSkills />
         </div>
         <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Industry />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
           <Certification />
         </div>
         <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
           <Networking />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
-          <Industry />
         </div>
         <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
           <TransferableSkills />
