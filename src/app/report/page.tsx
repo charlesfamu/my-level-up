@@ -8,7 +8,7 @@ import Networking from '@/components/report/Networking';
 import SoftSkills from '@/components/report/SoftSkills';
 import TechnicalSkills from '@/components/report/TechnicalSkills';
 import TransferableSkills from '@/components/report/TransferableSkills';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '@/components/ui/carousel';
+import { type CarouselApi } from '@/components/ui/carousel';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -70,8 +70,32 @@ const Report = () => {
         onTriggerGoToSlide={goToSlide}
         slideIndex={3}
       />
+
+      <div className="w-full max-w-[1200px]">
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Introduction />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <TechnicalSkills />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <SoftSkills />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Certification />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Networking />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <Industry />
+        </div>
+        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <TransferableSkills />
+        </div>
+      </div>
       
-      <Carousel className="w-full max-w-[1200px]" setApi={setApi}>
+      {/* <Carousel className="w-full max-w-[1200px]" setApi={setApi}>
         <CarouselContent className="w-full h-full">
           <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
             <Introduction />
@@ -97,7 +121,7 @@ const Report = () => {
         </CarouselContent>
         <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
         <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
-      </Carousel>
+      </Carousel> */}
     </div>
   );
 }
