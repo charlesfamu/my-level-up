@@ -62,7 +62,7 @@ const Report = () => {
   return (
     <div className="relative">
       <Banner
-        bannerText="Take a look at the courses that can help you get the skills you need."
+        bannerText="Level Up with These Courses."
         ref={bannerRef} 
         onClose={() => {
           bannerRef.current?.hide();
@@ -72,7 +72,7 @@ const Report = () => {
       />
 
       <div className="w-full max-w-full">
-        <div className={`${bannerOpened ? 'mt-20' : 'mt-4'}`}>
+        <div className={`${bannerOpened ? 'mt-20 md:mt-24' : 'mt-8 md:mt-12'} transition-all duration-300`}>
           <Introduction />
         </div>
         <TransferableSkills />
