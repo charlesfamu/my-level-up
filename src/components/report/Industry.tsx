@@ -1,5 +1,6 @@
 'use client'
 import { useResumeContext } from '@/context/ResumeContext';
+import { camelCaseToTitleCase } from '@/utils';
 
 const Industry = () => {
   const { skillsNeeded } = useResumeContext();
@@ -7,16 +8,16 @@ const Industry = () => {
   if (!desiredRole || !report?.industryKnowledge) return null;
 
   return (
-    <section id="industryKnowledge" className="w-full max-w-5xl mx-auto px-4 md:px-6">
-      <div className="flex flex-col items-center">
-        <h1 className="text-5xl font-bold mb-8 text-center">Learn the Industry</h1>
-        <ul className="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
+    <section id="industryKnowledge" className="w-full max-w-5xl mx-auto px-4 md:px-6 my-8">
+      <div className="flex flex-col">
+        <h2 className="text-3xl font-bold mb-4 text-left">Learn the Industry</h2>
+        <ol className="list-decimal pl-6 space-y-2 w-full max-w-6xl">
           {report.industryKnowledge.map((knowledge, index) => (
-            <li key={index} className="text-center align-middle py-4 px-8 border border-gray-300">
-              <h3 className="text-base md:text-lg font-semibold">{knowledge}</h3>
+            <li key={index} className="text-base md:text-lg font-semibold text-left marker:text-gray-700">
+              <h3 className="text-base md:text-lg font-semibold">{camelCaseToTitleCase(knowledge)}</h3>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );

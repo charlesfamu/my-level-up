@@ -10,13 +10,13 @@ const Certification = () => {
  
   if (!desiredRole || !report?.certificationsOrCourses) return null;
   return (
-    <section id="certification" className="w-full max-w-5xl mx-auto text-center px-4 md:px-6">
-      <div className="flex flex-col items-center">
-        <h1 className="text-5xl font-bold mb-8">{desiredRole} Certifications</h1>
-        <ul className="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
+    <section id="certification" className="w-full max-w-5xl mx-auto px-4 md:px-6 my-8">
+      <div className="flex flex-col">
+        <h2 className="text-3xl font-bold mb-4 text-left">{desiredRole} Certifications</h2>
+        <ul className="flex flex-wrap gap-2 w-full max-w-6xl">
           {report.certificationsOrCourses.map((cert, index) => (
-            <li key={index} className="flex flex-col p-4 min-w-[250px] max-w-[300px]">
-              <div className="flex flex-col text-center">
+            <li key={index} className="p-4 min-w-[250px] max-w-[300px]">
+              <div className="flex flex-col">
                 <h2 className="text-lg font-semibold">{camelCaseToTitleCase(cert.id)}</h2>
                 <p className="text-sm md:text-base mt-2 leading-tight">{cert.details}</p>
               </div>
@@ -27,7 +27,7 @@ const Certification = () => {
         {loading && <ProcessingState prompt="loading courses..." />}
         {!loading && courses && (
           <>
-            <h2 id="recommendedCourses" className="text-3xl font-bold mb-8">Recommended Courses</h2>
+            <h2 id="recommendedCourses" className="text-3xl font-bold mb-4">Recommended Courses</h2>
             <div className="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
               {courses.map((course) => (
                 <a

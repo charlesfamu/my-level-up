@@ -71,56 +71,44 @@ const Report = () => {
         slideIndex={3}
       />
 
-      <div className="w-full max-w-[1200px]">
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
+      <div className="w-full max-w-full">
+        <div className="parallax">
           <Introduction />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
-          <TechnicalSkills />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
-          <SoftSkills />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
-          <Industry />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
-          <Certification />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
-          <Networking />
-        </div>
-        <div className="parallax flex justify-center items-center min-h-[calc(100vh-14rem)]">
           <TransferableSkills />
+          <TechnicalSkills />
+          <SoftSkills />
+          <Industry />
+          <Networking />
+          <Certification />
         </div>
       </div>
       
-      {/* <Carousel className="w-full max-w-[1200px]" setApi={setApi}>
+      {/* <Carousel className="w-full max-w-[1200px] relative" setApi={setApi}>
         <CarouselContent className="w-full h-full">
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem className="w-full">
             <Introduction />
           </CarouselItem>
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem >
             <TechnicalSkills />
           </CarouselItem>
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem>
             <SoftSkills />
           </CarouselItem>
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem>
             <Certification />
           </CarouselItem>
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem>
             <Networking />
           </CarouselItem>
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem>
             <Industry />
           </CarouselItem>
-          <CarouselItem className="flex justify-center items-center min-h-[calc(100vh-14rem)]">
+          <CarouselItem>
             <TransferableSkills />
           </CarouselItem>
         </CarouselContent>
-        <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
-        <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
+        <CarouselPrevious className="absolute top-1/2 transform -translate-y-1/2 z-10"/>
+        <CarouselNext className="absolute top-1/2 transform -translate-y-1/2 z-10"/>
       </Carousel> */}
     </div>
   );
