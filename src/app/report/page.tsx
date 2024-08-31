@@ -10,10 +10,11 @@ import TechnicalSkills from '@/components/report/TechnicalSkills';
 import TransferableSkills from '@/components/report/TransferableSkills';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Report = () => {
   const { courses, handleFetchCourses, skillsNeeded, setStep } = useResumeContext();
+  const [bannerOpened, setBannerOpened] = useState(true);
   const router = useRouter();
   const bannerRef = useRef<BannerHandles>(null);
   const certificateRef = useRef<HTMLDivElement>(null);
@@ -63,21 +64,24 @@ const Report = () => {
       <Banner
         bannerText="Take a look at the courses that can help you get the skills you need."
         ref={bannerRef} 
-        onClose={() => bannerRef.current?.hide()} 
+        onClose={() => {
+          bannerRef.current?.hide();
+          setBannerOpened(false);
+        }} 
         onTriggerGoToSlide={goToCertifications}
       />
 
       <div className="w-full max-w-full">
-        <div className="parallax">
+        <div className={`${bannerOpened ? 'mt-20' : 'mt-4'}`}>
           <Introduction />
-          <TransferableSkills />
-          <TechnicalSkills />
-          <SoftSkills />
-          <Industry />
-          <Networking />
-          <div ref={certificateRef}>
-            <Certification />
-          </div>
+        </div>
+        <TransferableSkills />
+        <TechnicalSkills />
+        <SoftSkills />
+        <Industry />
+        <Networking />
+        <div ref={certificateRef}>
+          <Certification />
         </div>
       </div>
     </div>
