@@ -3,8 +3,7 @@ import { forwardRef, useImperativeHandle, useState } from 'react';
 interface BannerProps {
   bannerText?: string;
   onClose: () => void;
-  onTriggerGoToSlide: (index: number) => void;
-  slideIndex: number;
+  onTriggerGoToSlide: () => void;
 }
 
 export interface BannerHandles {
@@ -13,12 +12,12 @@ export interface BannerHandles {
 }
 
 const Banner = forwardRef<BannerHandles, BannerProps>(
-  function Banner({ bannerText = 'Banner Text', onClose, onTriggerGoToSlide, slideIndex }, ref) {
+  function Banner({ bannerText = 'Banner Text', onClose, onTriggerGoToSlide }, ref) {
     const [isVisible, setIsVisible] = useState(true);
 
     useImperativeHandle(ref, () => ({
       hide: () => setIsVisible(false),
-      triggerGoToSlide: (index: number) => onTriggerGoToSlide(index),
+      triggerGoToSlide: () => onTriggerGoToSlide(),
     }));
 
     if (!isVisible) return null;
@@ -36,7 +35,7 @@ const Banner = forwardRef<BannerHandles, BannerProps>(
         <div className="flex gap-4">
           <button
             type="button"
-            onClick={() => onTriggerGoToSlide(slideIndex)}
+            onClick={() => onTriggerGoToSlide()}
             className="bg-[#FFFFFF] text-[#0083A4] py-1 px-4 rounded text-sm"
           >
             Go

@@ -8,26 +8,23 @@ import Networking from '@/components/report/Networking';
 import SoftSkills from '@/components/report/SoftSkills';
 import TechnicalSkills from '@/components/report/TechnicalSkills';
 import TransferableSkills from '@/components/report/TransferableSkills';
-import { type CarouselApi } from '@/components/ui/carousel';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const Report = () => {
-  const [api, setApi] = useState<CarouselApi | null>(null);
   const { courses, handleFetchCourses, skillsNeeded, setStep } = useResumeContext();
   const router = useRouter();
   const bannerRef = useRef<BannerHandles>(null);
+  const certificateRef = useRef<HTMLDivElement>(null);
 
   const goToWelcomePage = () => {
     router.replace('/');
   };
 
-  const goToSlide = useCallback((index: number) => {
-    if (api) {
-      api.scrollTo(index);
-    }
-  }, [api]);
+  const goToCertifications = () => {
+    certificateRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     setStep(Steps.Welcome);
@@ -67,8 +64,7 @@ const Report = () => {
         bannerText="Take a look at the courses that can help you get the skills you need."
         ref={bannerRef} 
         onClose={() => bannerRef.current?.hide()} 
-        onTriggerGoToSlide={goToSlide}
-        slideIndex={3}
+        onTriggerGoToSlide={goToCertifications}
       />
 
       <div className="w-full max-w-full">
@@ -79,37 +75,11 @@ const Report = () => {
           <SoftSkills />
           <Industry />
           <Networking />
-          <Certification />
+          <div ref={certificateRef}>
+            <Certification />
+          </div>
         </div>
       </div>
-      
-      {/* <Carousel className="w-full max-w-[1200px] relative" setApi={setApi}>
-        <CarouselContent className="w-full h-full">
-          <CarouselItem className="w-full">
-            <Introduction />
-          </CarouselItem>
-          <CarouselItem >
-            <TechnicalSkills />
-          </CarouselItem>
-          <CarouselItem>
-            <SoftSkills />
-          </CarouselItem>
-          <CarouselItem>
-            <Certification />
-          </CarouselItem>
-          <CarouselItem>
-            <Networking />
-          </CarouselItem>
-          <CarouselItem>
-            <Industry />
-          </CarouselItem>
-          <CarouselItem>
-            <TransferableSkills />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious className="absolute top-1/2 transform -translate-y-1/2 z-10"/>
-        <CarouselNext className="absolute top-1/2 transform -translate-y-1/2 z-10"/>
-      </Carousel> */}
     </div>
   );
 }

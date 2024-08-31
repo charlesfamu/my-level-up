@@ -27,7 +27,7 @@ const Certification = () => {
         {loading && <ProcessingState prompt="loading courses..." />}
         {!loading && courses && (
           <>
-            <h2 id="recommendedCourses" className="text-3xl font-bold mb-4">Recommended Courses</h2>
+            <h2 id="recommendedCourses" className="text-3xl font-bold mb-4">Recommended Courses from Udemy</h2>
             <div className="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
               {courses.map((course) => (
                 <a
@@ -35,11 +35,11 @@ const Certification = () => {
                   href={`https://www.udemy.com${course.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col p-4 min-w-[250px] max-w-[300px] overflow-hidden"
-                >
+                  className="flex flex-col p-4 min-w-[250px] max-w-[300px] overflow-hidden bg-gray-800 bg-opacity-80 rounded-lg border border-gray-700 transition-transform transform hover:scale-105 hover:border-blue-500 hover:shadow-lg cursor-pointer"
+                  >
                   <div className="relative w-full h-0 pb-[56.25%]"> {/* Aspect ratio for video */}
                     <Image
-                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg"
                       src={course.image_240x135}
                       alt={course.title}
                       fill
