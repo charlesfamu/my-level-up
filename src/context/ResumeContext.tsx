@@ -1,5 +1,6 @@
 'use client'
 import { fetchCourses } from '@/services/course.services';
+import { trackEvent } from '@/services/mixpanel.services';
 import { fetchSkills, uploadResume } from '@/services/skill.services';
 import { camelCaseToTitleCase } from '@/utils';
 
@@ -22,12 +23,12 @@ export enum ReportKeys {
   TransferableSkills = 'transferableSkills',
 }
 
-export interface SkillDetails {
+export type SkillDetails = {
   id: string;
   details: string;
 }
 
-export interface Course {
+export type Course = {
   id: number;
   image_240x135: string;
   headline: string;
@@ -35,7 +36,7 @@ export interface Course {
   url: string;
 }
 
-export interface Report {
+export type Report = {
   [ReportKeys.Certification]: SkillDetails[];
   [ReportKeys.Industry]: string[];
   [ReportKeys.Introduction]: string;
@@ -45,13 +46,13 @@ export interface Report {
   [ReportKeys.TransferableSkills]: string[];
 }
 
-export interface SkillsNeeded {
+export type SkillsNeeded = {
   currentJob: string;
   desiredRole: string;
   report: Report;
 }
 
-export interface ResumeContextType {
+export type ResumeContextType = {
   resumeFile: File | null;
   resumeSkills: string | null;
   desiredProfession: string | null;
@@ -121,6 +122,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
 
     const data = await uploadResume(formData);
     if (data) {
+      trackEvent('Resume Uploaded');
       setResumeSkills(data.analysis);
     } else {
       setResumeFile(null);
