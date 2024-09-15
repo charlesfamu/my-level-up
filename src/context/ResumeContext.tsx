@@ -122,7 +122,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
 
     const data = await uploadResume(formData);
     if (data) {
-      trackEvent('Resume Uploaded');
+      trackEvent('resume_uploaded');
       setResumeSkills(data.analysis);
     } else {
       setResumeFile(null);
