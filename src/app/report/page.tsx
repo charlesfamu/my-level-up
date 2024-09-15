@@ -9,6 +9,7 @@ import SoftSkills from '@/components/report/SoftSkills';
 import TechnicalSkills from '@/components/report/TechnicalSkills';
 import TransferableSkills from '@/components/report/TransferableSkills';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
+import { trackEvent } from '@/services/mixpanel.services';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -58,6 +59,8 @@ const Report = () => {
       </div>
     );
   };
+
+  trackEvent('skills_gap_report_viewed');
 
   return (
     <div className="relative">

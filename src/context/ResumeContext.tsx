@@ -143,6 +143,12 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
       isJobDescription 
     });
 
+    trackEvent('job_description_entered', { profession });
+
+    if (isJobDescription) {
+      trackEvent('job_description_checkbox_clicked');
+    }
+
     const data = await fetchSkills(body);
 
     if (data) {
