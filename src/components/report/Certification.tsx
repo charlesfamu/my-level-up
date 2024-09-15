@@ -34,7 +34,7 @@ const Certification = () => {
                 <a
                   key={course.id}
                   href={`https://www.udemy.com${course.url}`}
-                  onClick={() => trackEvent('course_recommendation_clicked', { course_url: course.url })}
+                  onClick={() => trackEvent('course_recommendation_clicked', { course })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex flex-col p-4 min-w-[250px] max-w-[300px] overflow-hidden bg-gray-800 bg-opacity-80 rounded-lg border border-gray-700 transition-transform transform hover:scale-105 hover:border-blue-500 hover:shadow-lg cursor-pointer"

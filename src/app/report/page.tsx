@@ -16,9 +16,13 @@ import { useEffect, useRef, useState } from 'react';
 const Report = () => {
   const { courses, handleFetchCourses, skillsNeeded, setStep } = useResumeContext();
   const [bannerOpened, setBannerOpened] = useState(true);
+  const [eventTracked, setEventTracked] = useState(false);
   const router = useRouter();
   const bannerRef = useRef<BannerHandles>(null);
   const certificateRef = useRef<HTMLDivElement>(null);
+
+  const { desiredRole, report } = skillsNeeded ?? {};
+  const reportKeys = Object.keys(report ?? {});
 
   const goToWelcomePage = () => {
     router.replace('/');
@@ -27,6 +31,13 @@ const Report = () => {
   const goToCertifications = () => {
     certificateRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    if (!eventTracked && desiredRole && reportKeys.length) {
+      trackEvent('skills_gap_report_viewed');
+      setEventTracked(true);
+    }
+  }, [eventTracked, desiredRole, reportKeys]);
 
   useEffect(() => {
     setStep(Steps.Welcome);
@@ -42,8 +53,6 @@ const Report = () => {
     fetchData();
   }, [courses, handleFetchCourses]);
 
-  const { desiredRole, report } = skillsNeeded ?? {};
-  const reportKeys = Object.keys(report ?? {});
   if (!desiredRole || !reportKeys.length) {
     return (
       <div className="flex flex-col items-center justify-center">
@@ -58,9 +67,7 @@ const Report = () => {
         </div>
       </div>
     );
-  };
-
-  trackEvent('skills_gap_report_viewed');
+  }
 
   return (
     <div className="relative">
