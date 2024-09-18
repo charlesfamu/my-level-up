@@ -27,7 +27,7 @@ const DesiredProfessionCard = () => {
 
   return (
     <div className="flex flex-col justify-between bg-card text-card-foreground p-4 sm:p-6 max-w-full sm:max-w-md min-h-80 mx-auto">
-      <h1 className="text-2xl sm:text-2xl font-bold mb-2">Entire Desired Profession</h1>
+      <h1 className="text-2xl sm:text-2xl font-bold mb-2">Enter Desired Profession</h1>
       <p className="text-sm sm:text-base mb-4">You&apos;re almost done! Enter your desired profession or the job description. If you enter a job description,
         remember to click the box below before submitting.
       </p>
