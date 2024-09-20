@@ -8,23 +8,34 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// MIME type constants
+const MIME_TYPE_TEXT = 'text/plain';
+const MIME_TYPE_PDF = 'application/pdf';
+const MIME_TYPE_WORD_DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // .docx
+const MIME_TYPE_WORD_DOC = 'application/msword'; // .doc
+
 async function extractTextFromFile(file: File, mimeType: string): Promise<string> {
-  if (mimeType.includes('text/plain')) {
-    // Handle plain text files
-    return await file.text();
-  } else if (mimeType.includes('pdf')) {
-    // Handle PDF files
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const { text } = await PdfParse(buffer);
-    return text;
-  } else if (mimeType.includes('word')) {
-    // Handle Word documents
-    const arrayBuffer = await file.arrayBuffer();
-    const { value: text } = await mammoth.extractRawText({ arrayBuffer });
-    return text;
-  } else {
-    throw new Error('Unsupported file type');
+  try {
+    if (mimeType === MIME_TYPE_TEXT) {
+      // Handle plain text files
+      return await file.text();
+    } else if (mimeType === MIME_TYPE_PDF) {
+      // Handle PDF files
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const { text } = await PdfParse(buffer);
+      return text;
+    } else if (mimeType === MIME_TYPE_WORD_DOCX || mimeType === MIME_TYPE_WORD_DOC) {
+      // Handle Word documents
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer); // Create a Buffer instance
+      const { value: text } = await mammoth.extractRawText({ buffer }); // Use buffer, not arrayBuffer
+      return text;
+    } else {
+      throw new Error('Unsupported file type');
+    }
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : String(error));
   }
 }
 

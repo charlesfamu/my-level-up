@@ -1,4 +1,8 @@
 export const trackEvent = async (event: string, properties: Record<string, any> = {}) => {
+  if (window.location.hostname === 'localhost') {
+    return null;
+  }
+  
   const response = await fetch('/api/mixpanel', {
     method: 'POST',
     headers: {

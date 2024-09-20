@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { fetchCourses } from '@/services/course.services';
 import { trackEvent } from '@/services/mixpanel.services';
 import { fetchSkills, uploadResume } from '@/services/skill.services';
@@ -62,6 +63,7 @@ export type ResumeContextType = {
   showBanner: boolean;
   step: string;
   clearCourses: () => void;
+  clearResumeSkills: () => void;
   handleCloseBanner: () => void;
   handleFetchCourses: () => Promise<void>;
   handleUploadResume: (file: File) => Promise<void>;
@@ -92,6 +94,10 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const handleCloseBanner = useCallback(() => {
     setShowBanner(false);
   }, [setShowBanner]);
+
+  const clearResumeSkills = useCallback(() => {
+    setResumeSkills(null);
+  }, [setResumeSkills]);
 
   const clearCourses = useCallback(() => {
     setCourses(null);
@@ -169,6 +175,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     showBanner,
     step,
     clearCourses,
+    clearResumeSkills,
     handleCloseBanner,
     handleFetchCourses,
     handleUploadResume,
