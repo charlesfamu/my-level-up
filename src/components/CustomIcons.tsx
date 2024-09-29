@@ -1,4 +1,9 @@
-export const RightArrowIcon = ({ width = 24, height = 24, fill = 'currentColor', className = '' }) => (
+export const RightArrowIcon = ({
+  width = 24,
+  height = 24,
+  fill = 'currentColor',
+  className = '',
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 448 512"
@@ -11,7 +16,12 @@ export const RightArrowIcon = ({ width = 24, height = 24, fill = 'currentColor',
   </svg>
 );
 
-export const LeftArrowIcon = ({ width = 24, height = 24, fill = 'currentColor', className = '' }) => (
+export const LeftArrowIcon = ({
+  width = 24,
+  height = 24,
+  fill = 'currentColor',
+  className = '',
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 448 512"

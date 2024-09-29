@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useResumeContext } from '@/context/ResumeContext';
 
 const Introduction = () => {
@@ -7,10 +7,14 @@ const Introduction = () => {
   if (!desiredRole || !report?.introduction) return null;
 
   return (
-    <section id="introduction" className="w-full max-w-5xl mx-auto px-4 md:px-6 transition-all duration-300">
+    <section id="introduction" className="mb-12">
       <div className="flex flex-col items-center">
-        <h1 className="text-5xl font-bold mb-4">Your {desiredRole} Transition Plan</h1>
-        <p className="text-muted-foreground md:text-xl mx-auto lg:mx-0">{report.introduction}</p>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center">
+          Your {desiredRole} Transition Plan
+        </h1>
+        <p className="text-lg md:text-xl max-w-3xl mx-auto text-center">
+          {report.introduction}
+        </p>
       </div>
     </section>
   );

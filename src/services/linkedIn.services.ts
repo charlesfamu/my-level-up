@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface LinkedInProfileData {
   firstName?: {
     localized?: {
@@ -21,7 +22,7 @@ interface LinkedInProfileData {
 const LINKEDIN_PERSON_API = 'https://api.linkedin.com/v2/people';
 const ACCESS_TOKEN = process.env.LINKEDIN_ACCESS_TOKEN;
 
-export async function getProfileData (id: string) {
+export async function getProfileData() {
   try {
     if (!ACCESS_TOKEN) {
       throw new Error('Access token is not defined');
@@ -31,8 +32,8 @@ export async function getProfileData (id: string) {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     if (!response.ok) {
@@ -40,9 +41,18 @@ export async function getProfileData (id: string) {
     }
     const data: LinkedInProfileData = await response.json();
 
-    const firstName = data.firstName?.localized?.en_US ?? data.firstName?.localized?.default ?? '';
-    const lastName = data.lastName?.localized?.en_US ?? data.lastName?.localized?.default ?? '';
-    const headline = data.headline?.localized?.en_US ?? data.headline?.localized?.default ?? '';
+    const firstName =
+      data.firstName?.localized?.en_US ??
+      data.firstName?.localized?.default ??
+      '';
+    const lastName =
+      data.lastName?.localized?.en_US ??
+      data.lastName?.localized?.default ??
+      '';
+    const headline =
+      data.headline?.localized?.en_US ??
+      data.headline?.localized?.default ??
+      '';
     const summary = data.summary ?? '';
 
     return {
@@ -52,6 +62,6 @@ export async function getProfileData (id: string) {
       summary,
     };
   } catch (error) {
-
+    // console.error(error);
   }
 }

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { LeftArrowIcon } from '@/components/CustomIcons';
 import ProcessingState from '@/components/ProcessingState';
 import { Steps, useResumeContext } from '@/context/ResumeContext';
@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 const DesiredProfessionCard = () => {
   const { handleSubmitProfession, loading, setStep } = useResumeContext();
-  
+
   const [profession, setProfession] = useState<string | null>(null);
   const [isJobDescription, setIsJobDescription] = useState<boolean>(false);
 
@@ -27,13 +27,17 @@ const DesiredProfessionCard = () => {
 
   return (
     <div className="flex flex-col justify-between bg-card text-card-foreground p-4 sm:p-6 max-w-full sm:max-w-md min-h-80 mx-auto">
-      <h1 className="text-2xl sm:text-2xl font-bold mb-2">Enter Desired Profession</h1>
-      <p className="text-sm sm:text-base mb-4">You&apos;re almost done! Enter your desired profession or the job description. If you enter a job description,
-        remember to click the box below before submitting.
+      <h1 className="text-2xl sm:text-2xl font-bold mb-2">
+        Enter Desired Profession
+      </h1>
+      <p className="text-sm sm:text-base mb-4">
+        You&apos;re almost done! Enter your desired profession or the job
+        description. If you enter a job description, remember to click the box
+        below before submitting.
       </p>
       <div className="mb-4">
         {loading ? (
-          <ProcessingState prompt='Processing the details...'/>
+          <ProcessingState prompt="Processing the details..." />
         ) : (
           <>
             <textarea
@@ -44,12 +48,15 @@ const DesiredProfessionCard = () => {
             <div className="flex">
               <input
                 id="jobDescriptionCheckbox"
-                type="checkbox" 
+                type="checkbox"
                 checked={isJobDescription}
-                onChange={handleJobDescriptionChange} 
-                className="mr-1 text-black cursor-pointer" 
+                onChange={handleJobDescriptionChange}
+                className="mr-1 text-black cursor-pointer"
               />
-              <label htmlFor="jobDescriptionCheckbox" className="text-xs sm:text-xs cursor-pointer">
+              <label
+                htmlFor="jobDescriptionCheckbox"
+                className="text-xs sm:text-xs cursor-pointer"
+              >
                 Click if is a job description
               </label>
             </div>
@@ -57,7 +64,7 @@ const DesiredProfessionCard = () => {
         )}
       </div>
       <div className="flex flex-col sm:flex-row justify-between">
-        <button 
+        <button
           className={`flex items-center justify-center bg-primary text-primary-foreground px-4 py-2 w-full sm:w-24 transition-all mb-2 sm:mb-0 rounded-sm ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent'}`}
           onClick={() => setStep(Steps.Upload)}
           disabled={loading}

@@ -13,6 +13,6 @@ export async function POST(request: NextRequest) {
     ...properties,
     ip: ip ?? 1,
   });
-  
-  return NextResponse.json({ message:  `Tracked ${event} successfully!` });
+
+  return NextResponse.json({ message: `Tracked ${event} successfully!` });
 }

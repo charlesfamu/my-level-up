@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useResumeContext } from '@/context/ResumeContext';
 
 const TransferableSkills = () => {
@@ -7,19 +7,19 @@ const TransferableSkills = () => {
   if (!desiredRole || !report?.transferableSkills) return null;
 
   return (
-    <section id="transferableSkills" className="w-full max-w-5xl mx-auto px-4 md:px-6 my-8">
-      <div className="flex flex-col">
-        <h2 className="text-3xl font-bold mb-4 text-left">Your Transferable Skills</h2>
-        <ol className="list-decimal pl-12 space-y-2 w-full max-w-6xl">
-          {report.transferableSkills.map((skill, index) => (
-            <li key={index} className="text-base md:text-lg font-semibold text-left marker:text-gray-700">
-              <h3 className="text-base md:text-lg font-semibold">{skill}</h3>
-            </li>
-          ))}
-        </ol>
-      </div>
+    <section id="transferableSkills" className="mb-12">
+      <h2 className="text-3xl font-bold mb-6 text-left text-[#0083A4]">
+        Your Transferable Skills
+      </h2>
+      <ol className="list-decimal pl-8 space-y-2">
+        {report.transferableSkills.map((skill, index) => (
+          <li key={index} className="text-lg font-semibold">
+            {skill}
+          </li>
+        ))}
+      </ol>
     </section>
   );
-}
+};
 
 export default TransferableSkills;

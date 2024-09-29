@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 interface ProcessingStateProps {
   prompt?: string;
@@ -15,6 +15,6 @@ const ProcessingState = ({ prompt = 'Loading...' }: ProcessingStateProps) => {
       <p className="text-xs">{prompt}</p>
     </div>
   );
-}
+};
 
 export default ProcessingState;

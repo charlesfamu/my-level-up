@@ -1,16 +1,17 @@
-import { Course } from "@/context/ResumeContext";
+import { Course } from '@/context/ResumeContext';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export async function fetchCourses(titles: string) {
   try {
     const url = `/api/courses?titles=${titles}`;
     const response = await fetch(url);
     if (response instanceof Response && response.ok) {
-      const { courses }: {courses: Course[] } = await response.json();
+      const { courses }: { courses: Course[] } = await response.json();
       // only return unique courses
       if (courses) {
         const seen = new Map();
 
-        const uniqueCourses = courses.filter(course => {
+        const uniqueCourses = courses.filter((course) => {
           if (!seen.has(course.id)) {
             seen.set(course.id, true);
             return true;
@@ -19,7 +20,7 @@ export async function fetchCourses(titles: string) {
         });
 
         return uniqueCourses;
-      } 
+      }
       return courses;
     } else if (response instanceof Response) {
       // Handle non-OK HTTP responses
@@ -28,8 +29,7 @@ export async function fetchCourses(titles: string) {
       throw response;
     }
   } catch (error) {
-    // console.log(`Error fetching courses from titles, ${error}`);
+    // console.error(`Error fetching courses from titles, ${error}`);
     return null;
   }
-  
 }

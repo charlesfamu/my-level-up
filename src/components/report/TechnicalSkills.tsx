@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useResumeContext } from '@/context/ResumeContext';
 import { camelCaseToTitleCase } from '@/utils';
 
@@ -8,22 +8,22 @@ const TechnicalSkills = () => {
   if (!desiredRole || !report?.technicalSkills) return null;
 
   return (
-    <section id="techskills" className="w-full max-w-5xl mx-auto px-4 md:px-6 my-8">
-      <div className="flex flex-col">
-        <h2 className="text-3xl font-bold mb-4 text-left">{desiredRole} Need These Technical Skills</h2>
-        <ul className="flex flex-wrap gap-2 w-full max-w-6xl">
-          {report.technicalSkills.map((skill, index) => (
-            <li key={index} className="p-4 min-w-[250px] max-w-[300px]">
-              <div className="flex flex-col">
-                <h2 className="text-lg font-semibold">{camelCaseToTitleCase(skill.id)}</h2>
-                <p className="text-sm md:text-base mt-2 leading-tight">{skill.details}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+    <section id="techskills" className="mb-12">
+      <h2 className="text-3xl font-bold mb-8 text-[#0083A4]">
+        {desiredRole} Need These Technical Skills
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {report.technicalSkills.map((skill, index) => (
+          <div key={index} className="p-6 rounded-sm border shadow-md">
+            <h3 className="text-xl font-semibold mb-2">
+              {camelCaseToTitleCase(skill.id)}
+            </h3>
+            <p>{skill.details}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
-}
+};
 
 export default TechnicalSkills;

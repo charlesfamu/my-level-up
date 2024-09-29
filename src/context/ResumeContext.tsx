@@ -5,13 +5,19 @@ import { trackEvent } from '@/services/mixpanel.services';
 import { fetchSkills, uploadResume } from '@/services/skill.services';
 import { camelCaseToTitleCase } from '@/utils';
 
-import React, { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 
 export enum Steps {
   Welcome = 'home',
   Upload = 'resume',
   Input = 'desires',
-  Results = 'report',  
+  Results = 'report',
 }
 
 export enum ReportKeys {
@@ -27,15 +33,15 @@ export enum ReportKeys {
 export type SkillDetails = {
   id: string;
   details: string;
-}
+};
 
 export type Course = {
   id: number;
   image_240x135: string;
   headline: string;
-  title: string; 
+  title: string;
   url: string;
-}
+};
 
 export type Report = {
   [ReportKeys.Certification]: SkillDetails[];
@@ -45,13 +51,13 @@ export type Report = {
   [ReportKeys.SoftSkills]: string[];
   [ReportKeys.TechnicalSkills]: SkillDetails[];
   [ReportKeys.TransferableSkills]: string[];
-}
+};
 
 export type SkillsNeeded = {
   currentJob: string;
   desiredRole: string;
   report: Report;
-}
+};
 
 export type ResumeContextType = {
   resumeFile: File | null;
@@ -67,9 +73,12 @@ export type ResumeContextType = {
   handleCloseBanner: () => void;
   handleFetchCourses: () => Promise<void>;
   handleUploadResume: (file: File) => Promise<void>;
-  handleSubmitProfession: (profession: string | null, isJobDescription?: boolean) => Promise<void>;
+  handleSubmitProfession: (
+    profession: string | null,
+    isJobDescription?: boolean
+  ) => Promise<void>;
   setStep: React.Dispatch<React.SetStateAction<string>>;
-}
+};
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
@@ -84,7 +93,9 @@ export function useResumeContext() {
 export function ResumeProvider({ children }: { children: ReactNode }) {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeSkills, setResumeSkills] = useState<string | null>(null);
-  const [desiredProfession, setDesiredProfession] = useState<string | null>(null);
+  const [desiredProfession, setDesiredProfession] = useState<string | null>(
+    null
+  );
   const [skillsNeeded, setSkillsNeeded] = useState<SkillsNeeded | null>(null);
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -107,9 +118,11 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     if (skillsNeeded) {
       const { certificationsOrCourses } = skillsNeeded.report ?? {};
-      const titles = (certificationsOrCourses ?? []).map(details => {
-        return camelCaseToTitleCase(details.id);
-      }).join();
+      const titles = (certificationsOrCourses ?? [])
+        .map((details) => {
+          return camelCaseToTitleCase(details.id);
+        })
+        .join();
       const courses = await fetchCourses(titles);
       if (courses && Array.isArray(courses)) {
         setCourses(courses);
@@ -118,52 +131,58 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }, [skillsNeeded, setLoading, setCourses]);
 
-  const handleUploadResume = useCallback(async (file: File) => {
-    if (!file) return;
+  const handleUploadResume = useCallback(
+    async (file: File) => {
+      if (!file) return;
 
-    setResumeFile(file);
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('file', file);
+      setResumeFile(file);
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('file', file);
 
-    const data = await uploadResume(formData);
-    if (data) {
-      trackEvent('resume_uploaded');
-      setResumeSkills(data.analysis);
-    } else {
-      setResumeFile(null);
-    }
+      const data = await uploadResume(formData);
+      if (data) {
+        trackEvent('resume_uploaded');
+        setResumeSkills(data.analysis);
+      } else {
+        setResumeFile(null);
+      }
 
-    setLoading(false);
-  }, [setLoading, setResumeSkills]);
+      setLoading(false);
+    },
+    [setLoading, setResumeSkills]
+  );
 
-  const handleSubmitProfession = useCallback(async (profession: string | null, isJobDescription: boolean = false) => {
-    if (!profession || !resumeSkills) return;
+  const handleSubmitProfession = useCallback(
+    async (profession: string | null, isJobDescription: boolean = false) => {
+      if (!profession || !resumeSkills) return;
 
-    setLoading(true);
-    setDesiredProfession(profession);
+      setLoading(true);
+      setDesiredProfession(profession);
 
-    const body = JSON.stringify({ 
-      currentSkills: resumeSkills, 
-      desiredProfession: profession, 
-      isJobDescription 
-    });
+      const body = JSON.stringify({
+        currentSkills: resumeSkills,
+        desiredProfession: profession,
+        isJobDescription,
+      });
 
-    trackEvent('job_description_entered', { profession });
+      trackEvent('job_description_entered', { profession });
 
-    if (isJobDescription) {
-      trackEvent('job_description_checkbox_clicked');
-    }
+      if (isJobDescription) {
+        trackEvent('job_description_checkbox_clicked');
+      }
 
-    const data = await fetchSkills(body);
+      const data = await fetchSkills(body);
 
-    if (data) {
-      setSkillsNeeded(data.skillsNeeded);
-      setStep(Steps.Results);
-    }
+      if (data) {
+        setSkillsNeeded(data.skillsNeeded);
+        setStep(Steps.Results);
+      }
 
-    setLoading(false);
-  }, [resumeSkills, setLoading, setDesiredProfession, setSkillsNeeded, setStep]);
+      setLoading(false);
+    },
+    [resumeSkills, setLoading, setDesiredProfession, setSkillsNeeded, setStep]
+  );
 
   const value = {
     resumeFile,
@@ -185,8 +204,6 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ResumeContext.Provider value={value}>
-      {children}
-    </ResumeContext.Provider>
+    <ResumeContext.Provider value={value}>{children}</ResumeContext.Provider>
   );
 }

@@ -1,8 +1,11 @@
-export const trackEvent = async (event: string, properties: Record<string, any> = {}) => {
+export const trackEvent = async (
+  event: string,
+  properties: Record<string, unknown> = {}
+) => {
   if (window.location.hostname === 'localhost') {
     return null;
   }
-  
+
   const response = await fetch('/api/mixpanel', {
     method: 'POST',
     headers: {
@@ -16,4 +19,4 @@ export const trackEvent = async (event: string, properties: Record<string, any> 
   } else {
     throw new Error('Failed to track event');
   }
-}
+};

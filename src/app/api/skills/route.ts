@@ -7,10 +7,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(request: NextRequest) {
-  const { currentSkills, desiredProfession, isJobDescription } = await request.json();
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-  const systemPrompt = `
+export async function POST(request: NextRequest) {
+  try {
+    const { currentSkills, desiredProfession, isJobDescription } =
+      await request.json();
+
+    const systemPrompt = `
     You are a career transition advisor with expertise in identifying skills and qualifications needed 
     for various professions. Your task is to analyze a user's current skill set and desired career field to provide 
     a comprehensive list of skills, certifications, and knowledge areas required for a successful transition. Also
@@ -27,16 +31,16 @@ export async function POST(request: NextRequest) {
     The "Current Job" and "Desired Role" results should only include the title of the role, not the company.
   `;
 
-  const userInput = isJobDescription 
-    ? `Analyze this job description: ${desiredProfession}. Based on this, provide a list of:
+    const userInput = isJobDescription
+      ? `Analyze this job description: ${desiredProfession}. Based on this, provide a list of:
       1. Technical Skills
       2. Soft Skills
       3. Certifications or Courses
       4. Industry Knowledge
       5. Networking and Community
       Also, provide an introduction explaining how the user's current skills can be leveraged in this job.
-      ` 
-    : `These are my current skills: ${currentSkills}. This is my desired career: ${desiredProfession}. Based on this information, provide a list of:
+      `
+      : `These are my current skills: ${currentSkills}. This is my desired career: ${desiredProfession}. Based on this information, provide a list of:
       1. Technical Skills
       2. Soft Skills
       3. Certifications or Courses
@@ -45,43 +49,42 @@ export async function POST(request: NextRequest) {
       Also, provide an introduction explaining how my current skills relate to my desired career and how they can be leveraged for a successful transition.
       `;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      { 
-        role: 'system', 
-        content: `${systemPrompt}. The JSON object should include:
-          {
-            "currentJob": "string",
-            "desiredRole": "string",
-            "report": {
-              "introduction": "string",
-              "technicalSkills": {id: "string", details: "string"}[],
-              "softSkills": ["string"],
-              "certificationsOrCourses": {id: "string", details: "string"}["string"],
-              "industryKnowledge": ["string"],
-              "networkingAndCommunity": ["string"],
-              "transferableSkills": ["string"]
-            },
-          }`, 
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: `${systemPrompt}. The JSON object should include:
+            {
+              "currentJob": "string",
+              "desiredRole": "string",
+              "report": {
+                "introduction": "string",
+                "technicalSkills": {id: "string", details: "string"}[],
+                "softSkills": ["string"],
+                "certificationsOrCourses": {id: "string", details: "string"}["string"],
+                "industryKnowledge": ["string"],
+                "networkingAndCommunity": ["string"],
+                "transferableSkills": ["string"]
+              },
+            }`,
+        },
+        {
+          role: 'user',
+          content: userInput,
+        },
+      ],
+      max_tokens: 2000,
+      response_format: {
+        type: 'json_object',
       },
-      { 
-        role: 'user', 
-        content: userInput, 
-      },
-    ],
-    max_tokens: 2000,
-    response_format: {
-      'type': 'json_object'
-    },
-    temperature: 0.5,
-    top_p: 1,
-  });
+      temperature: 0.5,
+      top_p: 1,
+    });
 
-  try {
     const completionContent = response.choices?.[0]?.message?.content ?? '';
     const parsedResponse = JSON.parse(completionContent) ?? {};
-    
+
     const defaultSkills: SkillsNeeded = {
       currentJob: parsedResponse.currentJob || '',
       desiredRole: parsedResponse.desiredRole || '',
@@ -89,16 +92,21 @@ export async function POST(request: NextRequest) {
         introduction: parsedResponse.report?.introduction ?? '',
         technicalSkills: parsedResponse.report?.technicalSkills ?? [],
         softSkills: parsedResponse.report?.softSkills ?? [],
-        certificationsOrCourses: parsedResponse.report?.certificationsOrCourses ?? [],
+        certificationsOrCourses:
+          parsedResponse.report?.certificationsOrCourses ?? [],
         industryKnowledge: parsedResponse.report?.industryKnowledge ?? [],
-        networkingAndCommunity: parsedResponse.report?.networkingAndCommunity ?? [],
+        networkingAndCommunity:
+          parsedResponse.report?.networkingAndCommunity ?? [],
         transferableSkills: parsedResponse.report?.transferableSkills ?? [],
       },
     };
 
     return NextResponse.json({ skillsNeeded: defaultSkills }, { status: 200 });
   } catch (error) {
-    console.error('Error parsing response:', error);
-    return NextResponse.json({ error: 'Failed to parse the response.' }, { status: 500 });
+    // console.error('Error parsing response:', error);
+    return NextResponse.json(
+      { error: 'Failed to parse the response.' },
+      { status: 500 }
+    );
   }
 }

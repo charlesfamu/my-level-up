@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import DesiredProfessionCard from '@/components/DesiredProfessionCard';
 import MainContainer from '@/components/MainContainer';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const { step, setStep, loading, clearCourses, courses } = useResumeContext();
+  const { step, setStep, clearCourses, courses } = useResumeContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Home() {
   if (step === Steps.Results) {
     return (
       <div className="flex items-center justify-center w-full">
-        <ProcessingState prompt="Loading Report..."/>
+        <ProcessingState prompt="Loading Report..." />
       </div>
     );
   }

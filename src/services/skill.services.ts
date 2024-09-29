@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export async function uploadResume(formData: FormData) {
   try {
     const response = await fetch('/api/upload', {
@@ -35,7 +36,7 @@ export async function fetchSkills(body: string) {
       throw response;
     }
   } catch (error) {
-    // console.log(error);
+    // console.error(error);
     return null;
   }
 }

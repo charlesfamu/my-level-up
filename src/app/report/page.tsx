@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Banner, { BannerHandles } from '@/components/Banner';
 import Certification from '@/components/report/Certification';
@@ -14,7 +14,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const Report = () => {
-  const { courses, handleFetchCourses, skillsNeeded, setStep } = useResumeContext();
+  const { courses, handleFetchCourses, skillsNeeded, setStep } =
+    useResumeContext();
   const [bannerOpened, setBannerOpened] = useState(true);
   const [eventTracked, setEventTracked] = useState(false);
   const router = useRouter();
@@ -49,7 +50,7 @@ const Report = () => {
         await handleFetchCourses();
       }
     };
-    
+
     fetchData();
   }, [courses, handleFetchCourses]);
 
@@ -73,16 +74,18 @@ const Report = () => {
     <div className="relative">
       <Banner
         bannerText="Level Up with These Courses."
-        ref={bannerRef} 
+        ref={bannerRef}
         onClose={() => {
           bannerRef.current?.hide();
           setBannerOpened(false);
-        }} 
+        }}
         onTriggerGoToSlide={goToCertifications}
       />
 
-      <div className="w-full max-w-full">
-        <div className={`${bannerOpened ? 'mt-20 md:mt-24' : 'mt-8 md:mt-12'} transition-all duration-300`}>
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          className={`${bannerOpened ? 'pt-24 md:pt-32' : 'pt-8 md:pt-16'} transition-all duration-300`}
+        >
           <Introduction />
         </div>
         <TransferableSkills />
@@ -96,6 +99,6 @@ const Report = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Report;
